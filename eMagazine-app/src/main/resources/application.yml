@@ -1,0 +1,14 @@
+server:
+  port: 6666
+spring:
+  profiles:
+    active: development
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5466/eMagazine_db
+    username: admin_mag
+    password: 123
+
+  rabbitmq:
+    host: localhost
+    port: 5672

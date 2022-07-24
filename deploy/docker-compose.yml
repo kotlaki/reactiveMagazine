@@ -1,0 +1,64 @@
+version: "3.9"
+
+services:
+################### EGISSO DBs #######################
+  eMagazine-db:
+    image: postgres:${POSTGRES_TAG:-latest}
+    container_name: eMagazine-db
+    ports:
+      - '5466:5432'
+    environment:
+      POSTGRES_USER: sa
+      POSTGRES_PASSWORD: 123
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: eMagazine_db
+    volumes:
+      - ./db/create/create_role_db.sql:/docker-entrypoint-initdb.d/create_role_db.sql
+    networks:
+      - emagazine-internal
+
+  eMagazine-db-ui:
+    image: dpage/pgadmin4:latest
+    container_name: eMagazine-db-ui
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin_mag@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "123"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 1G
+    networks:
+      - emagazine-internal
+######################### RABBIT MQ #######################
+  rabbit-mq:
+    image: rabbitmq:3.9.21-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+    networks:
+      - emagazine-internal
+  ################### COMMON SERVICES #######################
+  eMagazine-consul:
+    image: consul:${CONSUL_TAG:-1.12.3}
+    container_name: eMagazine-consul
+    restart: always
+    volumes:
+      - "./consul/config:/consul/config"
+    networks:
+      - emagazine-internal
+
+################### NETWORKS ##############################
+
+networks:
+  emagazine-internal:
+    driver: bridge

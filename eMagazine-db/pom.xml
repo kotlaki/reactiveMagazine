@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>eMagazine-db</artifactId>
+
+    <name>Reactive eMagazine</name>
+
+    <parent>
+        <groupId>ru.kurganov</groupId>
+        <artifactId>reactiveMagazine</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <properties>
+        <db.user>admin_mag</db.user>
+        <db.password>123</db.password>
+        <db.database>eMagazine_db</db.database>
+    </properties>
+
+</project>
