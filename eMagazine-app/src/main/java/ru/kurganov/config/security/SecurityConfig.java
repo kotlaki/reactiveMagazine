@@ -7,10 +7,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -33,9 +33,23 @@ public class SecurityConfig {
                 .disable()
                 .cors()
                 .disable()
-                .authorizeHttpRequests().antMatchers("/registration", "/")
+                .authorizeHttpRequests()
+                .antMatchers(
+                        "/",
+                        "/registration",
+                        "/about",
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**"
+                )
                 .permitAll()
             .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .authenticationEntryPoint(swaggerAuthenticationEntryPoint())
             .and()
                 .formLogin()
                 .loginPage("/login")
@@ -51,5 +65,12 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(8 );
+    }
+
+    @Bean
+    public BasicAuthenticationEntryPoint swaggerAuthenticationEntryPoint() {
+        BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
+        entryPoint.setRealmName("Swagger Realm");
+        return entryPoint;
     }
 }

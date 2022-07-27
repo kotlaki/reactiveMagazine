@@ -16,10 +16,11 @@ public class AboutController implements AboutApi {
 
     private final AboutDto about;
 
-    public AboutController(@Value("@{eMagazine.db.version}") String about) {
+    public AboutController(@Value("${emagazine.app.version}") String about) {
         this.about = AboutDto.builder().releaseVersionDataBase(about).build();
     }
 
+    @Override
     public ResponseEntity<AboutDto> getAboutPage(Model model) {
         return ResponseEntity.ok(about);
     }
