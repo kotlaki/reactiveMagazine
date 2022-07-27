@@ -1,29 +1,28 @@
-package ru.kurganov.controllers;
+package ru.kurganov.controllers.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import ru.kurganov.controllers.RegistrationApi;
 import ru.kurganov.domain.dto.UserDto;
 import ru.kurganov.services.UserService;
 import javax.validation.Valid;
 
 @Controller
 @RequiredArgsConstructor
-public class UserController {
+public class RegistrationControllerImpl implements RegistrationApi {
 
     private final UserService userService;
 
-    @GetMapping("/registration")
+    @Override
     public String registration(Model model) {
         model.addAttribute("userDto", new UserDto());
         return "registration";
     }
 
-    @PostMapping("/registration")
+    @Override
     public String createUser(@Valid @ModelAttribute("userDto") UserDto userDto, Model model, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage",
@@ -39,7 +38,7 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/login")
+    @Override
     public String login() {
         return "login";
     }
