@@ -12,6 +12,10 @@ spring:
   jpa:
     show-sql: true
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   main:
     allow-bean-definition-overriding: true
 
@@ -21,3 +25,12 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
+
+logging:
+  level:
+    web: trace
+    org.springframework.web: trace
+
+emagazine:
+  app:
+    version: @project.version@
