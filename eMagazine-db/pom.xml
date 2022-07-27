@@ -14,7 +14,7 @@
     </parent>
 
     <properties>
-        <db.user>admin_mag</db.user>
+        <db.users>admin_mag</db.users>
         <db.password>123</db.password>
         <db.database>eMagazine_db</db.database>
     </properties>
