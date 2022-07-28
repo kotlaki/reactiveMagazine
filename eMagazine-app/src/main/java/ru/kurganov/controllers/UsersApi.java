@@ -15,11 +15,11 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 @Api(value = "users")
 public interface UsersApi {
 
-    @ApiOperation(value = "Список пользователей", response = String.class, tags = "users")
-    @ApiResponses(value = {
-            @ApiResponse(code = SC_OK, message = "вывод списка пользователей", response = List.class),
-            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "Внутренняя ошибка обработки запроса", response = String.class)
-    })
-    @GetMapping("/users")
-    String getAllUsers(Model model);
+//    @ApiOperation(value = "Список пользователей", response = String.class, tags = "users")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = SC_OK, message = "вывод списка пользователей", response = List.class),
+//            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "Внутренняя ошибка обработки запроса", response = String.class)
+//    })
+//    @GetMapping("/users")
+//    String getAllUsers(Model model);
 }

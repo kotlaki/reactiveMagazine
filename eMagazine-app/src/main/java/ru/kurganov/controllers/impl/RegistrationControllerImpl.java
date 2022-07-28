@@ -22,21 +22,21 @@ public class RegistrationControllerImpl implements RegistrationApi {
         return "registration";
     }
 
-    @Override
-    public String createUser(@Valid @ModelAttribute("userDto") UserDto userDto, Model model, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errorMessage",
-                    "Ошибка создания пользователя! Проверте правильность заполнения данных!");
-            return "registration";
-        }
-        if (!userService.createUser(userDto)) {
-            model.addAttribute("registrationError",
-                    "Ошибка создания пользователя! Пользователь с email "
-                            + userDto.getEmail() + " уже существует!");
-            return "redirect:/registration";
-        }
-        return "redirect:/login";
-    }
+//    @Override
+//    public String createUser(@Valid @ModelAttribute("userDto") UserDto userDto, Model model, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            model.addAttribute("errorMessage",
+//                    "Ошибка создания пользователя! Проверте правильность заполнения данных!");
+//            return "registration";
+//        }
+//        if (!userService.createUser(userDto)) {
+//            model.addAttribute("registrationError",
+//                    "Ошибка создания пользователя! Пользователь с email "
+//                            + userDto.getEmail() + " уже существует!");
+//            return "redirect:/registration";
+//        }
+//        return "redirect:/login";
+//    }
 
     @Override
     public String login() {

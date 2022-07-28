@@ -12,9 +12,9 @@ public class UsersControllerImpl implements UsersApi {
 
     private final UserService userService;
 
-    @Override
-    public String getAllUsers(Model model) {
-        model.addAttribute("listUsers",  userService.findAll());
-        return "users-list";
-    }
+//    @Override
+//    public String getAllUsers(Model model) {
+//        model.addAttribute("listUsers",  userService.findAll());
+//        return "users-list";
+//    }
 }

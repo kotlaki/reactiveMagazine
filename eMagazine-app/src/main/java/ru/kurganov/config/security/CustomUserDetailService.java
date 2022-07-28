@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.kurganov.domain.entity.Users;
 import ru.kurganov.services.UserRepositories;
 
 @Service
@@ -15,6 +16,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        return userRepositories.findByEmail(userName);
+//        return userRepositories.findByEmail(userName);
+        return new Users();
     }
 }

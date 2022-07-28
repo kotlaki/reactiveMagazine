@@ -31,13 +31,13 @@ public interface RegistrationApi {
     @GetMapping("/registration")
     String registration(Model model);
 
-    @ApiOperation(value = "Регистрация нового пользователя", response = String.class, tags = "registration")
-    @ApiResponses(value = {
-            @ApiResponse(code = SC_OK, message = "Успешное сохранение пользователя в БД", response = String.class),
-            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "Внутренняя ошибка обработки запроса", response = String.class)
-    })
-    @PostMapping("/registration")
-    String createUser(@Valid @ModelAttribute("userDto") UserDto userDto, Model model, BindingResult bindingResult);
+//    @ApiOperation(value = "Регистрация нового пользователя", response = String.class, tags = "registration")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = SC_OK, message = "Успешное сохранение пользователя в БД", response = String.class),
+//            @ApiResponse(code = SC_INTERNAL_SERVER_ERROR, message = "Внутренняя ошибка обработки запроса", response = String.class)
+//    })
+//    @PostMapping("/registration")
+//    String createUser(@Valid @ModelAttribute("userDto") UserDto userDto, Model model, BindingResult bindingResult);
 
     @ApiOperation(value = "Авторизация пользователя", response = String.class, tags = "login")
     @ApiResponses(value = {
