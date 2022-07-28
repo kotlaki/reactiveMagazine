@@ -38,37 +38,37 @@ public class UserServiceImpl implements UserService {
 //        return userRepositories.findOneByUserName(username);
 //    }
 
-    @Override
-    @Transactional
-    public boolean createUser(UserDto userDto) {
-        if (!Objects.isNull(userRepositories.findByEmail(userDto.getEmail()))) {
-            throw LoginAlreadyExistException.byUserName(userDto.getEmail());
-        }
-        Users users = new Users();
-                        users.setEmail(userDto.getEmail());
-                        users.setPassword(passwordEncoder.encode(userDto.getPassword()));
-                        users.setLastName(userDto.getLastName());
-                        users.setFirstName(userDto.getFirstName());
-                        users.setMiddleName(userDto.getMiddleName());
-                        users.setPhone(userDto.getPhone());
-                        users.setActive(true);
-                        users.setCreateDate(LocalDateTime.now());
-                        users.setRoles(Set.of(Role.ROLE_USER));
-
-        userRepositories.save(users);
-        log.info("Пользователь {} сохранен в БД!", userDto.getEmail());
-        return true;
-    }
+//    @Override
+//    @Transactional
+//    public boolean createUser(UserDto userDto) {
+//        if (!Objects.isNull(userRepositories.findByEmail(userDto.getEmail()))) {
+//            throw LoginAlreadyExistException.byUserName(userDto.getEmail());
+//        }
+//        Users users = new Users();
+//                        users.setEmail(userDto.getEmail());
+//                        users.setPassword(passwordEncoder.encode(userDto.getPassword()));
+//                        users.setLastName(userDto.getLastName());
+//                        users.setFirstName(userDto.getFirstName());
+//                        users.setMiddleName(userDto.getMiddleName());
+//                        users.setPhone(userDto.getPhone());
+//                        users.setActive(true);
+//                        users.setCreateDate(LocalDateTime.now());
+//                        users.setRoles(Set.of(Role.ROLE_USER));
+//
+//        userRepositories.save(users);
+//        log.info("Пользователь {} сохранен в БД!", userDto.getEmail());
+//        return true;
+//    }
 
     @Override
     public boolean saveUser(Users users) {
         return false;
     }
 
-    @Override
-    public List<Users> findAll() {
-        return userRepositories.findAll();
-    }
+//    @Override
+//    public List<Users> findAll() {
+//        return userRepositories.findAll();
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String userName) {
@@ -87,11 +87,11 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    @Override
-    public Optional<Users> findById(Long id) {
-        return Optional.of(userRepositories.findById(id))
-                       .orElseThrow(() -> LoginAlreadyExistException.byUserName(id.toString()));
-    }
+//    @Override
+//    public Optional<Users> findById(Long id) {
+//        return Optional.of(userRepositories.findById(id))
+//                       .orElseThrow(() -> LoginAlreadyExistException.byUserName(id.toString()));
+//    }
 
     @Override
     public void deleteById(Long id) {

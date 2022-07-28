@@ -3,11 +3,20 @@ server:
 spring:
   profiles:
     active: development
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5466/eMagazine_db
+  r2dbc:
+#    driver-class-name: org.postgresql.Driver
+    url: r2dbc:postgresql://localhost:5466/eMagazine_db
     username: admin_mag
     password: 123
+    pool:
+      enabled: true
+      initial-size: 50 # первоначальная ёмкость пула подключений к БД
+      max-idle-time: 5m # таймаут по истечении которого соединение удаляется из пула
+      max-size: 200 # максимальная ёмкость пула подключений к БД
+      data:
+        r2dbc:
+          repositories:
+            enabled: true
 
   jpa:
     show-sql: true

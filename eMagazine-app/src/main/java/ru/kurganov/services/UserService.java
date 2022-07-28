@@ -17,11 +17,11 @@ import java.util.Optional;
 public interface UserService extends UserDetailsService {
 //    User findByUserName(String username);
 
-    boolean createUser(UserDto userDto);
+//    boolean createUser(UserDto userDto);
 
     boolean saveUser(Users users);
 
-    List<Users> findAll();
+//    List<Users> findAll();
 
     UserDetails loadUserByUsername(String userName);
 
@@ -33,7 +33,7 @@ public interface UserService extends UserDetailsService {
 
     //    List<User> findAllUser();
     //
-    Optional<Users> findById(Long id);
+//    Optional<Users> findById(Long id);
 
     void deleteById(Long id);
 }

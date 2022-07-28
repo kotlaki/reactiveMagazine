@@ -1,4 +1,4 @@
-package ru.kurganov.api;
+package ru.kurganov.controllers;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
