@@ -3,6 +3,12 @@ server:
 spring:
   profiles:
     active: development
+
+  r2dbc:
+    username: admin_mag
+    password: 123
+    url: r2dbc:postgresql://localhost:5466/eMagazine_db
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5466/eMagazine_db
@@ -21,6 +27,12 @@ spring:
 
   flyway:
     locations: filesystem:./eMagazine-db/src/main/resources/db
+    url: jdbc:postgresql://localhost:5466/eMagazine_db
+    user: admin_mag
+    password: 123
+
+#  thymeleaf:
+#    prefix: classpath:/resources/templates
 
   rabbitmq:
     host: localhost

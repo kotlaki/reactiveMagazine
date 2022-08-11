@@ -8,7 +8,7 @@
 /* Table: db_version                                            */
 /*==============================================================*/
 
-INSERT INTO users (email, password, last_name, first_name, middle_name, create_date, phone, active)
+INSERT INTO users (email, password, last_name, first_name, middle_name, create_date, phone, active, roles)
 VALUES
     (
      'admin@gmail.com',
@@ -18,13 +18,9 @@ VALUES
      'Васильевич',
      '2022-07-26',
      '+79881111111',
-     true
+     true,
+     'ROLE_ADMIN'
      );
-
-INSERT INTO user_role (user_id, roles)
-VALUES
-    (1, 'ROLE_ADMIN');
-
 --------------------------------------------------------------------------------
 
 update db_version

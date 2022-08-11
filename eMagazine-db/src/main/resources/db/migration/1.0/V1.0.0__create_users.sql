@@ -43,7 +43,8 @@ create table users
     middle_name varchar(50)  not null,
     phone       varchar(12)  not null,
     create_date date         not null,
-    active      boolean      not null
+    active      boolean      not null,
+    roles varchar(20) not null
 );
 
 comment
@@ -76,30 +77,11 @@ comment
 comment
     on column users.active is 'Признак активной записи';
 
+comment
+    on column users.roles is 'Роль';
+
 create unique index users_email_uindex
     on users (email);
-
-/*
-    Создание таблицы users_roles
- */
-create table user_role
-(
-    user_id bigint not null,
-    roles char(20) not null,
-
-    primary key (user_id)
-
-);
-
-comment
-on table user_role is 'Связующая таблица для пользователей и ролей';
-
-comment
-on column user_role.user_id is 'ИД пользователя';
-
-comment
-on column user_role.roles is 'Роли';
-
 
 --------------------------------------------------------------------------------
 
