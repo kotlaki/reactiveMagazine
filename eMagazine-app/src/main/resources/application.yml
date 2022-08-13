@@ -41,8 +41,11 @@ spring:
 logging:
   level:
     web: trace
-    org.springframework.web: trace
-
+#    org.springframework.web: trace
+#    io.r2dbc.postgresql: debug
+#    org.springframework.r2dbc.: debug
+#    org.springframework.data.r2dbc: debug
+    sql: debug
 emagazine:
   app:
     version: @project.version@

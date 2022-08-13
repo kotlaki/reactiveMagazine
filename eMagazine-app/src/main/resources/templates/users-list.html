@@ -22,13 +22,13 @@
 
         <h2 class="mb-4">Пользователи</h2>
 
-        <form th:action="@{/users}" method="get">
+        <form th:action="@{/allUsers}" method="get">
             <input th:value="${word != null} ? ${word}" th:name="word" type="text" placeholder="Логин">
             <button type="submit" class="btn btn-primary">Найти</button>
         </form>
 
         <div class="col-12 mb-2">
-            <a class="btn btn-primary" th:href="@{/users/addUser}">Добавить пользователя</a>
+            <a class="btn btn-primary" th:href="@{/registration}">Добавить пользователя</a>
         </div>
 
         <div class="card mb-4">
@@ -43,6 +43,7 @@
                         <th>Отчество пользователя</th>
                         <th>Роль</th>
                         <th>Телефон</th>
+                        <th>Дата создания</th>
                         <th class="actions">Действия</th>
                     </tr>
                     </thead>
@@ -56,26 +57,15 @@
                         <th scope="row" th:text="${users.middleName}"></th>
                         <th scope="row" th:text="${users.roles}"></th>
                         <th scope="row" th:text="${users.phone}"></th>
+                        <th scope="row" th:text="${users.createDate}"></th>
                         <td>
                             <a th:href="@{/users/edit/{id}(id = ${users.getId()})}" name="edit" type="submit">Редактировать</a>
                             <a th:href="@{/users/delete/{id}(id = ${users.getId()})}" name="delete" type="reset">Удалить</a>
-                            <!--                            <button name="edit" type="submit">Редактировать</button>-->
-                            <!--                            <button name="delete" type="reset">Удалить</button>-->
-                            <!--<a th:href="@{/users/{id}(id = ${users.getId()})}" class="btn btn-icon btn-pill btn-primary" data-toggle="tooltip" title="Редактировать"><i class="fa fa-fw fa-edit"></i></a>-->
-                            <!--                            <a th:href="@{/users/delete/{id}(id = ${users.getId()})}" class="btn btn-icon btn-pill btn-danger" data-toggle="tooltip" title="Удалить"><i class="fa fa-fw fa-trash"></i></a>-->
                         </td>
                     </tr>
                     </tbody>
                 </table>
-<!--                <nav aria-label="Page navigation example">-->
-<!--                    <ul class="pagination">-->
-<!--                        &lt;!&ndash;<li class="page-item"><a class="page-link" href="#">Previous</a></li>&ndash;&gt;-->
-<!--                        <li th:each="i : ${#numbers.sequence(1, totalPage, 1)}">-->
-<!--                            <a th:class="page-link" th:text="${i}" th:classappend="${page == i ? 'active' : ''}" th:href="@{'/users/?page=' + ${i} + '&word=' + ${word}}"></a>-->
-<!--                        </li>-->
-<!--                        &lt;!&ndash;<li class="page-item"><a class="page-link" href="#">Next</a></li>&ndash;&gt;-->
-<!--                    </ul>-->
-<!--                </nav>-->
+
             </div>
         </div>
     </div>
