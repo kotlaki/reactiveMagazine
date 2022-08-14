@@ -7,12 +7,12 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
-import ru.kurganov.domain.UserRole;
 import ru.kurganov.domain.Users;
 import ru.kurganov.domain.dto.UserDto;
 import ru.kurganov.service.UsersService;
-import java.time.LocalDate;
 import java.util.Map;
+
+import static ru.kurganov.config.ApplicationConstraint.*;
 
 @Slf4j
 @Component
@@ -51,15 +51,12 @@ public class IndexHandler {
 
     private UserDto formDataToEmployee(MultiValueMap<String, String> formData) {
         UserDto userDto = new UserDto();
-        userDto.setEmail(formData.getFirst("email"));
-        userDto.setLastName(formData.getFirst("lastName"));
-        userDto.setFirstName(formData.getFirst("firstName"));
-        userDto.setMiddleName(formData.getFirst("middleName"));
-        userDto.setPhone(formData.getFirst("phone"));
-        userDto.setPassword(formData.getFirst("password"));
-        userDto.setRole(UserRole.ROLE_USER);
-        userDto.setActive(true);
-        userDto.setCreateDate(LocalDate.now());
+        userDto.setEmail(formData.getFirst(EMAIL));
+        userDto.setLastName(formData.getFirst(LAST_NAME));
+        userDto.setFirstName(formData.getFirst(FIRST_NAME));
+        userDto.setMiddleName(formData.getFirst(MIDDLE_NAME));
+        userDto.setPhone(formData.getFirst(PHONE));
+        userDto.setPassword(formData.getFirst(PASSWORD));
         return userDto;
     }
 }

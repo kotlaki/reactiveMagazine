@@ -2,11 +2,14 @@ package ru.kurganov.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.kurganov.domain.UserRole;
 import ru.kurganov.domain.Users;
 import ru.kurganov.domain.dto.UserDto;
 import ru.kurganov.repo.UserRepository;
@@ -18,8 +21,8 @@ import java.time.LocalDate;
 public class UsersServiceImpl implements UsersService {
 
     private final UserRepository userRepository;
-
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return userRepository.findUsersByEmail(username).cast(UserDetails.class);
@@ -36,18 +39,20 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    @Transactional
     public Mono<Users> save(UserDto userDto) {
-        Users user = new Users();
-        user.setEmail(userDto.getEmail());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setLastName(userDto.getLastName());
-        user.setFirstName(userDto.getLastName());
-        user.setMiddleName(userDto.getMiddleName());
-        user.setPhone(userDto.getPhone());
-        user.setActive(true);
-        user.setCreateDate(LocalDate.now());
-        user.setRoles(userDto.getRole());
+        Users user = prepareUser(userDto);
         log.info("Успешное сохранение {}", user.getEmail());
         return userRepository.save(user);
+    }
+
+    private Users prepareUser(UserDto userDto) {
+        Users user = new Users();
+        modelMapper.map(userDto, user);
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setRoles(UserRole.ROLE_USER);
+        user.setActive(true);
+        user.setCreateDate(LocalDate.now());
+        return user;
     }
 }
