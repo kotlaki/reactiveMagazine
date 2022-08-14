@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 import ru.kurganov.domain.UserRole;
 import ru.kurganov.domain.Users;
 import ru.kurganov.domain.dto.UserDto;
+import ru.kurganov.exceptions.UserAlreadyExistException;
 import ru.kurganov.repo.UserRepository;
 import java.time.LocalDate;
 
@@ -42,8 +43,9 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public Mono<Users> save(UserDto userDto) {
         Users user = prepareUser(userDto);
-        log.info("Успешное сохранение {}", user.getEmail());
-        return userRepository.save(user);
+        return userRepository.save(user)
+                .onErrorResume(k ->
+                        Mono.error(UserAlreadyExistException.userAlreadyExistByName(user.getEmail())));
     }
 
     private Users prepareUser(UserDto userDto) {

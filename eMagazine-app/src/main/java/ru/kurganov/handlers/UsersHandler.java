@@ -17,7 +17,7 @@ import static ru.kurganov.config.ApplicationConstraint.*;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class IndexHandler {
+public class UsersHandler {
 
     private final UsersService usersService;
 
@@ -36,27 +36,27 @@ public class IndexHandler {
     public Mono<ServerResponse> registration(ServerRequest serverRequest) {
         return ServerResponse
                 .ok()
-                .render("/registration", Map.of("userDto", new UserDto()));
+                .render("/registration", Map.of("userDto", UserDto.builder().build()));
     }
 
     public Mono<ServerResponse> save(ServerRequest serverRequest) {
-
         Mono<Users> multi = serverRequest.formData()
                                          .map(this::formDataToEmployee)
-                                         .flatMap(usersService::save).cast(Users.class);
+                                         .flatMap(usersService::save)
+                                         .cast(Users.class);
         return ServerResponse
                 .ok()
                 .render("registration-confirmation", multi, UserDto.class);
     }
 
     private UserDto formDataToEmployee(MultiValueMap<String, String> formData) {
-        UserDto userDto = new UserDto();
-        userDto.setEmail(formData.getFirst(EMAIL));
-        userDto.setLastName(formData.getFirst(LAST_NAME));
-        userDto.setFirstName(formData.getFirst(FIRST_NAME));
-        userDto.setMiddleName(formData.getFirst(MIDDLE_NAME));
-        userDto.setPhone(formData.getFirst(PHONE));
-        userDto.setPassword(formData.getFirst(PASSWORD));
-        return userDto;
+        return UserDto.builder()
+                      .email(formData.getFirst(EMAIL))
+                      .lastName(formData.getFirst(LAST_NAME))
+                      .firstName(formData.getFirst(FIRST_NAME))
+                      .middleName(formData.getFirst(MIDDLE_NAME))
+                      .password(formData.getFirst(PASSWORD))
+                      .phone(formData.getFirst(PHONE))
+                      .build();
     }
 }

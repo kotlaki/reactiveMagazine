@@ -1,5 +1,6 @@
 package ru.kurganov.domain.dto;
 
+import lombok.Builder;
 import lombok.Data;
 import ru.kurganov.domain.UserRole;
 import javax.validation.constraints.NotEmpty;
@@ -7,6 +8,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 @Data
+@Builder
 public class UserDto {
 
     private Long id;
@@ -36,24 +38,4 @@ public class UserDto {
 
     private LocalDate createDate;
 
-    public UserDto() {
-    }
-
-    public UserDto(Long id,
-                   String email,
-                   String password,
-                   String firstName,
-                   String lastName,
-                   String middleName,
-                   String phone,
-                   UserRole roles) {
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.phone = phone;
-        this.role = roles;
-    }
 }

@@ -7,39 +7,39 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import ru.kurganov.handlers.IndexHandler;
+import ru.kurganov.handlers.UsersHandler;
 
 @Configuration
 public class UsersRouting {
 
     @Bean
-    public RouterFunction<ServerResponse> index(IndexHandler indexHandler) {
+    public RouterFunction<ServerResponse> index(UsersHandler usersHandler) {
         return RouterFunctions.route(
                 RequestPredicates.GET("/")
                                  .and(RequestPredicates.accept(MediaType.TEXT_HTML)),
-                indexHandler::index
+                usersHandler::index
         );
     }
 
     @Bean
-    public RouterFunction<ServerResponse> allUsers(IndexHandler indexHandler) {
+    public RouterFunction<ServerResponse> allUsers(UsersHandler usersHandler) {
         return RouterFunctions.route(
                 RequestPredicates.GET("/allUsers"),
-                indexHandler::allUsers
+                usersHandler::allUsers
         );
     }
 
     @Bean
-    public RouterFunction<ServerResponse> registration(IndexHandler indexHandler) {
+    public RouterFunction<ServerResponse> registration(UsersHandler usersHandler) {
         return RouterFunctions.route()
                               .GET(
                                       "/registration",
-                                      indexHandler::registration
+                                      usersHandler::registration
                               )
                               .POST(
                                       "/registration",
                                       RequestPredicates.accept(MediaType.APPLICATION_FORM_URLENCODED),
-                                      indexHandler::save
+                                      usersHandler::save
                               )
                               .build();
     }
