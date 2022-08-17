@@ -14,5 +14,11 @@ public interface UsersService extends ReactiveUserDetailsService {
 
     Mono<Users> findByUserName(String username);
 
+    Mono<Users> findById(Long id);
+
     Mono<Users> save(UserDto userDto);
+
+    Mono<Users> update(UserDto userDto);
+
+    Mono<Void> delete(Long id);
 }

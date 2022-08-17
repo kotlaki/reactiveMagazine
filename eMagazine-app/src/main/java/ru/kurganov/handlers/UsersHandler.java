@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 import ru.kurganov.domain.Users;
 import ru.kurganov.domain.dto.UserDto;
 import ru.kurganov.service.UsersService;
+import java.net.URI;
 import java.util.Map;
 
 import static ru.kurganov.config.ApplicationConstraint.*;
@@ -58,5 +59,32 @@ public class UsersHandler {
                       .password(formData.getFirst(PASSWORD))
                       .phone(formData.getFirst(PHONE))
                       .build();
+    }
+
+    public Mono<ServerResponse> formUpdate(ServerRequest serverRequest) {
+        Mono<Users> id = usersService.findById(Long.parseLong(serverRequest.pathVariable("id")));
+        return ServerResponse
+                .ok()
+                .render("edit-user", Map.of("userDto", id));
+    }
+
+    public Mono<ServerResponse> update(ServerRequest serverRequest) {
+        Mono<Users> usersMono = serverRequest.formData()
+                                             .map(s -> {
+                                                 UserDto userDto = formDataToEmployee(s);
+                                                 userDto.setId(Long.parseLong(serverRequest.pathVariable("id")));
+                                                 return userDto;
+                                             })
+                                             .flatMap(usersService::update);
+        return ServerResponse
+                .ok()
+                .render("registration-confirmation", usersMono, Map.of("listUsers", usersService.findAll()));
+    }
+
+    public Mono<ServerResponse> delete(ServerRequest serverRequest) {
+        Mono<Void> id = usersService.delete(Long.parseLong(serverRequest.pathVariable("id")));
+        return ServerResponse
+                .temporaryRedirect(URI.create("/allUsers"))
+                .render("users-list", id, Map.of("listUsers", usersService.findAll()));
     }
 }

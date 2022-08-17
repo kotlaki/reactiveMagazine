@@ -3,6 +3,7 @@ package ru.kurganov.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Mono<Users> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public Flux<Users> findAll() {
         return userRepository.findAll();
     }
@@ -43,9 +49,23 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     public Mono<Users> save(UserDto userDto) {
         Users user = prepareUser(userDto);
+        user.setNew(true);
         return userRepository.save(user)
                 .onErrorResume(k ->
                         Mono.error(UserAlreadyExistException.userAlreadyExistByName(user.getEmail())));
+    }
+
+    @Override
+    public Mono<Users> update(UserDto userDto) {
+        Users user = prepareUser(userDto);
+        user.setId(userDto.getId());
+        user.setNew(false);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public Mono<Void> delete(Long id) {
+        return userRepository.deleteById(id);
     }
 
     private Users prepareUser(UserDto userDto) {

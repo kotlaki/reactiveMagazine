@@ -43,4 +43,22 @@ public class UsersRouting {
                               )
                               .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> update(UsersHandler usersHandler) {
+        return RouterFunctions.route()
+                .GET("/allUsers/edit/{id}",
+                        usersHandler::formUpdate)
+                .POST("/allUsers/update/{id}",
+                        usersHandler::update)
+                .build();
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> delete(UsersHandler usersHandler) {
+        return RouterFunctions.route()
+                .GET("/allUsers/delete/{id}",
+                        usersHandler::delete)
+                .build();
+    }
 }
