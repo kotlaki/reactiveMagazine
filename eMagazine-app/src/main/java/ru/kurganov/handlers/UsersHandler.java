@@ -50,17 +50,6 @@ public class UsersHandler {
                 .render("registration-confirmation", multi, UserDto.class);
     }
 
-    private UserDto formDataToEmployee(MultiValueMap<String, String> formData) {
-        return UserDto.builder()
-                      .email(formData.getFirst(EMAIL))
-                      .lastName(formData.getFirst(LAST_NAME))
-                      .firstName(formData.getFirst(FIRST_NAME))
-                      .middleName(formData.getFirst(MIDDLE_NAME))
-                      .password(formData.getFirst(PASSWORD))
-                      .phone(formData.getFirst(PHONE))
-                      .build();
-    }
-
     public Mono<ServerResponse> formUpdate(ServerRequest serverRequest) {
         Mono<Users> id = usersService.findById(Long.parseLong(serverRequest.pathVariable("id")));
         return ServerResponse
@@ -86,5 +75,16 @@ public class UsersHandler {
         return ServerResponse
                 .temporaryRedirect(URI.create("/allUsers"))
                 .render("users-list", id, Map.of("listUsers", usersService.findAll()));
+    }
+
+    private UserDto formDataToEmployee(MultiValueMap<String, String> formData) {
+        return UserDto.builder()
+                      .email(formData.getFirst(EMAIL))
+                      .lastName(formData.getFirst(LAST_NAME))
+                      .firstName(formData.getFirst(FIRST_NAME))
+                      .middleName(formData.getFirst(MIDDLE_NAME))
+                      .password(formData.getFirst(PASSWORD))
+                      .phone(formData.getFirst(PHONE))
+                      .build();
     }
 }
