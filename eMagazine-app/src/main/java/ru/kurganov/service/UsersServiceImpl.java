@@ -3,7 +3,6 @@ package ru.kurganov.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,8 +50,8 @@ public class UsersServiceImpl implements UsersService {
         Users user = prepareUser(userDto);
         user.setNew(true);
         return userRepository.save(user)
-                .onErrorResume(k ->
-                        Mono.error(UserAlreadyExistException.userAlreadyExistByName(user.getEmail())));
+                .onErrorMap(original ->
+                        UserAlreadyExistException.userAlreadyExistByName(user.getEmail()));
     }
 
     @Override

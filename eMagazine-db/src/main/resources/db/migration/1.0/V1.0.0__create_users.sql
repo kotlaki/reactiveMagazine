@@ -31,20 +31,20 @@ values ('0.0.0', current_timestamp);
 /*
    Создание таблицы users
  */
-create table users
+
+CREATE TABLE IF NOT EXISTS users
 (
-    id          bigserial
-        constraint users_pk
-            primary key,
-    email       varchar(50)  not null,
-    password    varchar(100) not null,
-    last_name   varchar(50)  not null,
-    first_name  varchar(50)  not null,
-    middle_name varchar(50)  not null,
-    phone       varchar(12)  not null,
-    create_date date         not null,
-    active      boolean      not null,
-    roles varchar(20) not null
+    id          bigserial   NOT NULL
+        constraint users_pk primary key,
+    email       VARCHAR(50) NOT NULL,
+    password    varchar(80)    NOT NULL,
+    last_name   VARCHAR(50) NOT NULL,
+    first_name  VARCHAR(50) NOT NULL,
+    middle_name varchar(50) not null,
+    phone       VARCHAR(15) NOT NULL,
+    active      boolean              default true,
+    create_date timestamp   not null default current_timestamp,
+    roles       varchar(50) not null
 );
 
 comment
