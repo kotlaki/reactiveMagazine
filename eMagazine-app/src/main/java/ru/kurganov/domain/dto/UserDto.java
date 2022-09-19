@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 import ru.kurganov.domain.UserRole;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
 
 @Data
 @Builder
-public class UserDto {
+public class UserDto implements Serializable {
 
     private Long id;
 

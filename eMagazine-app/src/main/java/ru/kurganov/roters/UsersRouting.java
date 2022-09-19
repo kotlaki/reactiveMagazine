@@ -13,52 +13,15 @@ import ru.kurganov.handlers.UsersHandler;
 public class UsersRouting {
 
     @Bean
-    public RouterFunction<ServerResponse> index(UsersHandler usersHandler) {
-        return RouterFunctions.route(
-                RequestPredicates.GET("/")
-                                 .and(RequestPredicates.accept(MediaType.TEXT_HTML)),
-                usersHandler::index
-        );
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> allUsers(UsersHandler usersHandler) {
-        return RouterFunctions.route(
-                RequestPredicates.GET("/allUsers"),
-                usersHandler::allUsers
-        );
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> registration(UsersHandler usersHandler) {
-        return RouterFunctions.route()
-                              .GET(
-                                      "/registration",
-                                      usersHandler::registration
-                              )
-                              .POST(
-                                      "/registration",
-                                      RequestPredicates.accept(MediaType.APPLICATION_FORM_URLENCODED),
-                                      usersHandler::save
-                              )
-                              .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> update(UsersHandler usersHandler) {
-        return RouterFunctions.route()
-                .GET("/allUsers/edit/{id}",
-                        usersHandler::formUpdate)
-                .POST("/allUsers/update/{id}",
-                        usersHandler::update)
-                .build();
-    }
-
-    @Bean
-    public RouterFunction<ServerResponse> delete(UsersHandler usersHandler) {
-        return RouterFunctions.route()
-                .GET("/allUsers/delete/{id}",
-                        usersHandler::delete)
-                .build();
+    public RouterFunction<ServerResponse> routes(UsersHandler usersHandler) {
+        return RouterFunctions
+                .route(RequestPredicates.GET("/"), usersHandler::index)
+                .andRoute(RequestPredicates.GET("/allUsers"), usersHandler::allUsers)
+                .andRoute(RequestPredicates.GET("/registration"), usersHandler::registration)
+                .andRoute(RequestPredicates.POST("/registration")
+                                           .and(RequestPredicates.accept(MediaType.APPLICATION_FORM_URLENCODED)), usersHandler::save)
+                .andRoute(RequestPredicates.GET("/allUsers/edit/{id}"), usersHandler::formUpdate)
+                .andRoute(RequestPredicates.POST("/allUsers/update/{id}"), usersHandler::update)
+                .andRoute(RequestPredicates.GET("/allUsers/delete/{id}"), usersHandler::delete);
     }
 }

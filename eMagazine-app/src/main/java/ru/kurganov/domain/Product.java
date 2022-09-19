@@ -4,25 +4,20 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Entity
@@ -46,8 +41,8 @@ public class Product implements Persistable<Long> {
     @Size(min = 8, max = 8, message = "требуется 8 числовых символов")
     private String vendorCode;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "product")
-    private List<ProductImage> images;
+//    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, mappedBy = "product")
+//    private List<ProductImage> images;
 
     @Column("title")
     @NotNull(message = "не может быть пустым")
@@ -66,20 +61,15 @@ public class Product implements Persistable<Long> {
     @Digits(integer = 10, fraction = 2)
     private double price;
 
-    @Column("create_at")
-    @CreationTimestamp
-    private LocalDateTime createAt;
+    @Transient
+    private boolean isNew = false;
 
-    @Column("update_at")
-    @UpdateTimestamp
-    private LocalDateTime updateAt;
-
-    public void addImage(ProductImage productImage) {
-        if (images == null) {
-            images = new ArrayList<>();
-        }
-        images.add(productImage);
-    }
+//    public void addImage(ProductImage productImage) {
+//        if (images == null) {
+//            images = new ArrayList<>();
+//        }
+//        images.add(productImage);
+//    }
 
     public Long getId() {
         return id;

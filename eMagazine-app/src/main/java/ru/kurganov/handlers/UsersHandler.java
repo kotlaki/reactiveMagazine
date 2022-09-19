@@ -2,6 +2,7 @@ package ru.kurganov.handlers;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.server.ServerRequest;
@@ -28,6 +29,7 @@ public class UsersHandler {
                 .render("index");
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<ServerResponse> allUsers(ServerRequest serverRequest) {
         return ServerResponse
                 .ok()
@@ -50,6 +52,7 @@ public class UsersHandler {
                 .render("registration-confirmation", multi, UserDto.class);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<ServerResponse> formUpdate(ServerRequest serverRequest) {
         Mono<Users> id = usersService.findById(Long.parseLong(serverRequest.pathVariable("id")));
         return ServerResponse
@@ -57,6 +60,7 @@ public class UsersHandler {
                 .render("edit-user", Map.of("userDto", id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<ServerResponse> update(ServerRequest serverRequest) {
         Mono<Users> usersMono = serverRequest.formData()
                                              .map(s -> {
@@ -70,6 +74,7 @@ public class UsersHandler {
                 .render("registration-confirmation", usersMono, Map.of("listUsers", usersService.findAll()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Mono<ServerResponse> delete(ServerRequest serverRequest) {
         Mono<Void> id = usersService.delete(Long.parseLong(serverRequest.pathVariable("id")));
         return ServerResponse

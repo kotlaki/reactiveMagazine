@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.kurganov.domain.Product;
-import ru.kurganov.domain.dto.ProductDto;
 import ru.kurganov.repo.ProductRepository;
 
 @Slf4j
@@ -23,8 +22,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Mono<Product> findById(Long id) {
+//        return productRepository.findById(id);
+        return productRepository.findProduct(id);
+    }
+
+    @Override
     @Transactional
-    public Mono<Product> save(ProductDto productDto) {
-        return null;
+    public Mono<Product> save(Product product) {
+        product.setNew(true);
+        return productRepository.save(product);
+    }
+
+    @Override
+    public Mono<Product> update(Product product) {
+        product.setNew(false);
+        return productRepository.save(product);
     }
 }
