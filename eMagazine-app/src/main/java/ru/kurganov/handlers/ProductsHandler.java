@@ -40,7 +40,7 @@ public class ProductsHandler {
         Optional<String> pageOpt = serverRequest.queryParam("page");
         long page = 0;
         if (pageOpt.isPresent()) {
-            page = Long.parseLong(pageOpt.get());
+            page = Long.parseLong(pageOpt.get()) - 1;
         }
         return ServerResponse
                 .ok()
@@ -50,7 +50,7 @@ public class ProductsHandler {
                                 "totalPages", productService
                                         .count()
                                         .map(s -> {
-                                            return s / PAGE_LIMIT;
+                                            return s / PAGE_LIMIT + 1;
                                         })
                         ));
     }
@@ -69,7 +69,7 @@ public class ProductsHandler {
         Optional<String> pageOpt = serverRequest.queryParam("page");
         long page = 0;
         if (pageOpt.isPresent()) {
-            page = Long.parseLong(pageOpt.get());
+            page = Long.parseLong(pageOpt.get()) - 1;
         }
         return ServerResponse
                 .ok()
@@ -81,7 +81,7 @@ public class ProductsHandler {
                                 "totalPages", productService
                                         .count()
                                         .map(s -> {
-                                            return s / PAGE_LIMIT;
+                                            return s / PAGE_LIMIT + 1;
                                         })
                         ));
     }
