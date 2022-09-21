@@ -58,6 +58,7 @@
 <!--            <th>Картинка</th>-->
             <th>Название товара</th>
             <th>Цена</th>
+            <th>Действия</th>
             <th></th>
         </tr>
         </thead>
@@ -82,22 +83,22 @@
         </tbody>
     </table>
 
-<!--    <nav aria-label="Page navigation example">-->
-<!--        <ul class="pagination">-->
-<!--            &lt;!&ndash;<li class="page-item"><a class="page-link" href="#">Previous</a></li>&ndash;&gt;-->
-<!--            <th th:if="${word == null}">-->
-<!--                <li th:each="i : ${#numbers.sequence(1, totalPage, 1)}">-->
-<!--                    <a th:class="page-link" th:text="${i}" th:classappend="${page == i ? 'active' : ''}" th:href="@{'/shop/?page=' + ${i}}"></a>-->
-<!--                </li>-->
-<!--            </th>-->
-<!--            <th th:unless="${word == null}">-->
-<!--                <li th:each="i : ${#numbers.sequence(1, totalPage, 1)}">-->
-<!--                    <a th:class="page-link" th:text="${i}" th:classappend="${page == i ? 'active' : ''}" th:href="@{'/shop/?page=' + ${i} + '&word=' + ${word}}"></a>-->
-<!--                </li>-->
-<!--            </th>-->
-<!--            &lt;!&ndash;<li class="page-item"><a class="page-link" href="#">Next</a></li>&ndash;&gt;-->
-<!--        </ul>-->
-<!--    </nav>-->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <!--<li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
+            <th th:if="${word == null}">
+                <li th:each="i : ${#numbers.sequence(0, totalPages, 1)}">
+                    <a th:class="page-link" th:text="${i}" th:classappend="${page == i ? 'active' : ''}" th:href="@{'/shop/?page=' + ${i}}"></a>
+                </li>
+            </th>
+            <th th:unless="${word == null}">
+                <li th:each="i : ${#numbers.sequence(0, totalPages, 1)}">
+                    <a th:class="page-link" th:text="${i}" th:classappend="${page == i ? 'active' : ''}" th:href="@{'/shop/?page=' + ${i} + '&word=' + ${word}}"></a>
+                </li>
+            </th>
+            <!--<li class="page-item"><a class="page-link" href="#">Next</a></li>-->
+        </ul>
+    </nav>
 </div>
 
 </body>

@@ -17,8 +17,11 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Flux<Product> findAll() {
-        return productRepository.findAll();
+    public Flux<Product> findAll(long page, long limit) {
+        return productRepository
+                .findAll()
+                .skip(page * limit)
+                .take(limit);
     }
 
     @Override
@@ -39,4 +42,11 @@ public class ProductServiceImpl implements ProductService {
         product.setNew(false);
         return productRepository.save(product);
     }
+    @Override
+    public Mono<Long> count() {
+        return productRepository
+                .count();
+    }
+
+
 }

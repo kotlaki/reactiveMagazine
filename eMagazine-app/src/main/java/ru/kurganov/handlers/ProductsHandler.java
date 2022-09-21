@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
@@ -16,6 +17,7 @@ import ru.kurganov.repo.CategoriesRepository;
 import ru.kurganov.service.ProductService;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import static ru.kurganov.config.ApplicationConstraint.FULL_DESCRIPTION;
 import static ru.kurganov.config.ApplicationConstraint.PRICE;
@@ -29,13 +31,28 @@ import static ru.kurganov.config.ApplicationConstraint.VENDOR_CODE;
 @AllArgsConstructor
 public class ProductsHandler {
 
+    private static final long PAGE_LIMIT = 10;
     private final ProductService productService;
 
     private final CategoriesRepository categoriesRepository;
+
     public Mono<ServerResponse> catalog(ServerRequest serverRequest) {
+        Optional<String> pageOpt = serverRequest.queryParam("page");
+        long page = 0;
+        if (pageOpt.isPresent()) {
+            page = Long.parseLong(pageOpt.get());
+        }
         return ServerResponse
                 .ok()
-                .render("shop-page", Map.of("products", productService.findAll()));
+                .render("shop-page",
+                        Map.of(
+                                "products", productService.findAll(page, PAGE_LIMIT),
+                                "totalPages", productService
+                                        .count()
+                                        .map(s -> {
+                                            return s / PAGE_LIMIT;
+                                        })
+                        ));
     }
 
     public Mono<ServerResponse> showProduct(ServerRequest serverRequest) {
@@ -48,14 +65,25 @@ public class ProductsHandler {
 
     public Mono<ServerResponse> updateProduct(ServerRequest serverRequest) {
         Mono<Product> product = serverRequest.bodyToMono(Product.class)
-                .flatMap(productService::update);
-//        Mono<Product> product = serverRequest.formData()
-//                                                 .map(this::formDataToEntity)
-//                                                 .flatMap(productService::update);
+                                             .flatMap(productService::update);
+        Optional<String> pageOpt = serverRequest.queryParam("page");
+        long page = 0;
+        if (pageOpt.isPresent()) {
+            page = Long.parseLong(pageOpt.get());
+        }
         return ServerResponse
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .render("shop-page", Map.of("product", product, "products", productService.findAll()));
+                .render("shop-page",
+                        Map.of(
+                                "product", product,
+                                "products", productService.findAll(page, PAGE_LIMIT),
+                                "totalPages", productService
+                                        .count()
+                                        .map(s -> {
+                                            return s / PAGE_LIMIT;
+                                        })
+                        ));
     }
 
     private Product formDataToEntity(MultiValueMap<String, String> formData) {
@@ -70,7 +98,7 @@ public class ProductsHandler {
         category.setTitle("Ноутбук");
         category.setId(1L);
         product.setCategory(category);
-//        product.setCategory(formData.getFirst());
+        //        product.setCategory(formData.getFirst());
         return product;
     }
 }
